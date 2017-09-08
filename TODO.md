@@ -1,0 +1,1 @@
+– в cor_spider_new, cor_http_new, cor_html_new передавать пул или создавать свой
