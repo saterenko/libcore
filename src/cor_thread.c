@@ -57,6 +57,19 @@ cor_thread_delete(cor_thread_t *t)
     }
 }
 
+int
+cor_thread_set_affinity(cor_thread_t *t, int n)
+{
+    cpu_set_t cpuset;
+    CPU_ZERO(&cpuset);
+    CPU_SET(n, &cpuset);
+    int rc = pthread_setaffinity_np(t->thread, sizeof(cpu_set_t), &cpuset);
+    if (rc != 0) {
+        return cor_error;
+    }
+    return cor_ok;
+}
+
 static void *
 cor_thread_main(void *arg)
 {
