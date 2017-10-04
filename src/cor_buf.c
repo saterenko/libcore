@@ -118,8 +118,9 @@ cor_buf_chain_append_data(cor_buf_pool_t *bp, cor_buf_chain_t *bc, const char *d
         }
         if (size > b->end - b->last) {
             memcpy(b->last, data, b->end - b->last);
-            b->last = b->end;
+            data += b->end - b->last;
             size -= b->end - b->last;
+            b->last = b->end;
         } else {
             memcpy(b->last, data, size);
             b->last += size;
