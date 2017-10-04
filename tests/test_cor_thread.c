@@ -27,6 +27,7 @@ BEGIN_TEST(test_cor_thread)
     cor_thread_t *threads[4];
     for (int i = 0; i < 4; i++) {
         threads[i] = cor_thread_new(test_thread_on_init, test_thread_on_shutdown, NULL);
+        cor_thread_run(threads[i]);
         test_ptr_ne(threads[i], NULL);
     }
     usleep(100000);

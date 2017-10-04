@@ -28,6 +28,7 @@ struct cor_thread_s
 };
 
 cor_thread_t *cor_thread_new(cor_thread_cb_t *on_init, cor_thread_cb_t *on_shutdown, void *arg);
+void cor_thread_run(cor_thread_t *t);
 void cor_thread_delete(cor_thread_t *t);
 int cor_thread_set_affinity(cor_thread_t *t, int n);
 

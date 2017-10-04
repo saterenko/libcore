@@ -29,13 +29,17 @@ cor_thread_new(cor_thread_cb_t *on_init, cor_thread_cb_t *on_shutdown, void *arg
     ev_async_init(&t->ev_shutdown, cor_thread_on_shutdown);
     t->ev_shutdown.data = t;
     ev_async_start(t->loop, &t->ev_shutdown);
-    /*  start thread  */
+    return t;
+}
+
+void
+cor_thread_run(cor_thread_t *t)
+{
     pthread_attr_t attr;
     pthread_attr_init(&attr);
     pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
     pthread_create(&t->thread, &attr, cor_thread_main, t);
     pthread_attr_destroy(&attr);
-    return t;
 }
 
 void
