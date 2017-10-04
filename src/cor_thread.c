@@ -62,7 +62,9 @@ cor_thread_main(void *arg)
 {
     cor_thread_t *t = (cor_thread_t *) arg;
     t->tid = gettid();
-    t->on_init(t, arg);
+    if (t->on_init) {
+        t->on_init(t, arg);
+    }
     ev_run(t->loop, 0);
     ev_loop_destroy(t->loop);
     return NULL;
@@ -72,7 +74,9 @@ static void
 cor_thread_on_shutdown(struct ev_loop *loop, ev_async *w, int revents)
 {
     cor_thread_t *t = (cor_thread_t *) w->data;
-    t->on_shutdown(t, t->arg);
+    if (t->on_shutdown) {
+        t->on_shutdown(t, t->arg);
+    }
     ev_break(t->loop, EVBREAK_ALL);
 }
 
