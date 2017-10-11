@@ -36,6 +36,7 @@ DEPS = $(SRC)/cor_array.h \
 	$(SRC)/cor_thread.h \
 	$(SRC)/cor_time.h \
 	$(SRC)/cor_trace.h \
+	$(SRC)/cor_uuid.h \
 	$(SRC)/xxhash.h \
 	$(TEST)/cor_test.h
 
@@ -58,6 +59,7 @@ OBJS = $(BUILD)/cor_array.o \
 	$(BUILD)/cor_thread.o \
 	$(BUILD)/cor_time.o \
 	$(BUILD)/cor_trace.o \
+	$(BUILD)/cor_uuid.o \
 	$(BUILD)/xxhash.o
 
 LIBS = $(BUILD)/libcore.a
@@ -72,7 +74,8 @@ TESTS = $(BUILD)/test_cor_buf \
 	$(BUILD)/test_cor_smap \
 	$(BUILD)/test_cor_spider \
 	$(BUILD)/test_cor_thread \
-	$(BUILD)/test_cor_trace
+	$(BUILD)/test_cor_trace \
+	$(BUILD)/test_cor_uuid
 
 all: prebuild $(OBJS) $(LIBS) $(TESTS)
 
@@ -155,6 +158,10 @@ $(BUILD)/cor_trace.o: $(DEPS) \
 	$(SRC)/cor_trace.c
 	$(CC) -c $(CFLAGS) $(INCS) -o $(BUILD)/cor_trace.o $(SRC)/cor_trace.c
 
+$(BUILD)/cor_uuid.o: $(DEPS) \
+	$(SRC)/cor_uuid.c
+	$(CC) -c $(CFLAGS) $(INCS) -o $(BUILD)/cor_uuid.o $(SRC)/cor_uuid.c
+
 $(BUILD)/xxhash.o: $(DEPS) \
 	$(SRC)/xxhash.c
 	$(CC) -c $(CFLAGS) $(INCS) -o $(BUILD)/xxhash.o $(SRC)/xxhash.c
@@ -203,6 +210,10 @@ $(BUILD)/test_cor_trace: \
 	$(BUILD)/test_cor_trace.o $(BUILD)/cor_trace.o
 	$(LINK) -o $(BUILD)/test_cor_trace $(LIBS) $(BUILD)/test_cor_trace.o $(BUILD)/cor_trace.o $(LDLIBS)
 
+$(BUILD)/test_cor_uuid: \
+	$(BUILD)/test_cor_uuid.o $(BUILD)/cor_uuid.o
+	$(LINK) -o $(BUILD)/test_cor_uuid $(LIBS) $(BUILD)/test_cor_uuid.o $(BUILD)/cor_uuid.o $(LDLIBS)
+
 $(BUILD)/test_cor_buf.o: $(DEPS) \
 	$(TEST)/test_cor_buf.c
 	$(CC) -c $(CFLAGS) $(INCS) -o $(BUILD)/test_cor_buf.o $(TEST)/test_cor_buf.c
@@ -246,6 +257,10 @@ $(BUILD)/test_cor_thread.o: $(DEPS) \
 $(BUILD)/test_cor_trace.o: $(DEPS) \
 	$(TEST)/test_cor_trace.c
 	$(CC) -c $(CFLAGS) $(INCS) -o $(BUILD)/test_cor_trace.o $(TEST)/test_cor_trace.c
+
+$(BUILD)/test_cor_uuid.o: $(DEPS) \
+	$(TEST)/test_cor_uuid.c
+	$(CC) -c $(CFLAGS) $(INCS) -o $(BUILD)/test_cor_uuid.o $(TEST)/test_cor_uuid.c
 
 clean:
 	rm -rf $(BUILD)
