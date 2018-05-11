@@ -36,6 +36,7 @@ DEPS = $(SRC)/cor_array.h \
 	$(SRC)/cor_smap.h \
 	$(SRC)/cor_spider.h \
 	$(SRC)/cor_str.h \
+	$(SRC)/cor_thread.h \
 	$(SRC)/cor_time.h \
 	$(SRC)/cor_trace.h \
 	$(SRC)/xxhash.h \
@@ -58,6 +59,7 @@ OBJS = $(BUILD)/cor_array.o \
 	$(BUILD)/cor_smap.o \
 	$(BUILD)/cor_spider.o \
 	$(BUILD)/cor_str.o \
+	$(BUILD)/cor_thread.o \
 	$(BUILD)/cor_time.o \
 	$(BUILD)/cor_trace.o \
 	$(BUILD)/xxhash.o
@@ -148,6 +150,10 @@ $(BUILD)/cor_spider.o: $(DEPS) \
 $(BUILD)/cor_str.o: $(DEPS) \
 	$(SRC)/cor_str.c
 	$(CC) -c $(CFLAGS) $(INCS) -o $(BUILD)/cor_str.o $(SRC)/cor_str.c
+
+$(BUILD)/cor_thread.o: $(DEPS) \
+	$(SRC)/cor_thread.c
+	$(CC) -c $(CFLAGS) $(INCS) -o $(BUILD)/cor_thread.o $(SRC)/cor_thread.c
 
 $(BUILD)/cor_time.o: $(DEPS) \
 	$(SRC)/cor_time.c

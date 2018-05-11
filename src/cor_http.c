@@ -109,10 +109,8 @@ cor_http_start(cor_http_t *ctx, cor_http_cb_t *cb, void *arg)
     ctx->arg = arg;
     if (cor_http_listener_init(ctx) != cor_ok) {
         cor_log_error(ctx->log, "can't cor_http_listener_init");
-        cor_http_delete(ctx);
         return cor_error;
     }
-
     return cor_ok;
 }
 
@@ -403,7 +401,9 @@ cor_http_listener_init(cor_http_t *ctx)
         close(sd);
         return cor_error;
     }
-    setsockopt(sd, SOL_SOCKET, SO_REUSEADDR, &flags, sizeof(flags));
+    int reuse = 1;
+    setsockopt(sd, SOL_SOCKET, SO_REUSEADDR, &reuse, sizeof(reuse));
+    setsockopt(sd, SOL_SOCKET, SO_REUSEPORT, &reuse, sizeof(reuse));
     struct linger ling = {0, 0};
     setsockopt(sd, SOL_SOCKET, SO_LINGER, &ling, sizeof(ling));
     struct sockaddr_in addr;
