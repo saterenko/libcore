@@ -10,13 +10,11 @@ CFLAGS = -std=gnu99 -g -Wall
 #CFLAGS = -std=gnu99 -Wall -O3 -fno-strict-aliasing
 
 INCS = -I$(SRC) \
-	-I/usr/local/include/libbson-1.0 \
-	-I/usr/local/include/libmongoc-1.0 \
 	-I/usr/include/mysql
 
 LIBS = -L/usr/lib/mysql
 
-LDLIBS =  -lev -lcurl -lJudy -lmongoc-1.0 -lbson-1.0 -lmysqlclient -pthread
+LDLIBS =  -lev -lcurl -lJudy -lmysqlclient -pthread
 
 DEPS = $(SRC)/cor_array.h \
 	$(SRC)/cor_core.h \
@@ -29,7 +27,6 @@ DEPS = $(SRC)/cor_array.h \
 	$(SRC)/cor_list.h \
 	$(SRC)/cor_log.h \
 	$(SRC)/cor_mmap.h \
-	$(SRC)/cor_mongo.h \
 	$(SRC)/cor_morph.h \
 	$(SRC)/cor_mysql.h \
 	$(SRC)/cor_pool.h \
@@ -52,7 +49,6 @@ OBJS = $(BUILD)/cor_array.o \
 	$(BUILD)/cor_list.o \
 	$(BUILD)/cor_log.o \
 	$(BUILD)/cor_mmap.o \
-	$(BUILD)/cor_mongo.o \
 	$(BUILD)/cor_morph.o \
 	$(BUILD)/cor_mysql.o \
 	$(BUILD)/cor_pool.o \
@@ -71,7 +67,6 @@ TESTS = $(BUILD)/test_cor_buf \
 	$(BUILD)/test_cor_http \
 	$(BUILD)/test_cor_list \
 	$(BUILD)/test_cor_log \
-	$(BUILD)/test_cor_mongo \
 	$(BUILD)/test_cor_morph \
 	$(BUILD)/test_cor_mysql \
 	$(BUILD)/test_cor_smap \
@@ -122,10 +117,6 @@ $(BUILD)/cor_log.o: $(DEPS) \
 $(BUILD)/cor_mmap.o: $(DEPS) \
 	$(SRC)/cor_mmap.c
 	$(CC) -c $(CFLAGS) $(INCS) -o $(BUILD)/cor_mmap.o $(SRC)/cor_mmap.c
-
-$(BUILD)/cor_mongo.o: $(DEPS) \
-	$(SRC)/cor_mongo.c
-	$(CC) -c $(CFLAGS) $(INCS) -o $(BUILD)/cor_mongo.o $(SRC)/cor_mongo.c
 
 $(BUILD)/cor_morph.o: $(DEPS) \
 	$(SRC)/cor_morph.c
@@ -187,10 +178,6 @@ $(BUILD)/test_cor_log: \
 	$(BUILD)/test_cor_log.o $(BUILD)/cor_log.o 
 	$(LINK) -o $(BUILD)/test_cor_log $(BUILD)/test_cor_log.o $(BUILD)/cor_log.o $(LDLIBS)
 
-$(BUILD)/test_cor_mongo: \
-	$(BUILD)/test_cor_mongo.o $(BUILD)/cor_mongo.o $(BUILD)/cor_log.o $(BUILD)/cor_pool.o $(BUILD)/cor_str.o
-	$(LINK) -o $(BUILD)/test_cor_mongo $(BUILD)/test_cor_mongo.o $(BUILD)/cor_mongo.o $(BUILD)/cor_log.o $(BUILD)/cor_pool.o $(BUILD)/cor_str.o $(LDLIBS)
-
 $(BUILD)/test_cor_morph: \
 	$(BUILD)/test_cor_morph.o $(BUILD)/cor_dict.o $(BUILD)/cor_log.o $(BUILD)/cor_mmap.o $(BUILD)/cor_morph.o $(BUILD)/cor_pool.o $(BUILD)/cor_str.o $(BUILD)/cor_time.o
 	$(LINK) -o $(BUILD)/test_cor_morph $(BUILD)/test_cor_morph.o $(BUILD)/cor_dict.o $(BUILD)/cor_log.o $(BUILD)/cor_mmap.o $(BUILD)/cor_morph.o $(BUILD)/cor_pool.o $(BUILD)/cor_str.o $(BUILD)/cor_time.o $(LDLIBS)
@@ -231,11 +218,7 @@ $(BUILD)/test_cor_log.o: $(DEPS) \
 	$(TEST)/test_cor_log.c
 	$(CC) -c $(CFLAGS) $(INCS) -o $(BUILD)/test_cor_log.o $(TEST)/test_cor_log.c
 
-$(BUILD)/test_cor_mongo.o: $(DEPS) \
-	$(TEST)/test_cor_mongo.c
-	$(CC) -c $(CFLAGS) $(INCS) -o $(BUILD)/test_cor_mongo.o $(TEST)/test_cor_mongo.c
-
-$(BUILD)/test_cor_morph.o: $(DEPS) \
+s$(BUILD)/test_cor_morph.o: $(DEPS) \
 	$(TEST)/test_cor_morph.c
 	$(CC) -c $(CFLAGS) $(INCS) -o $(BUILD)/test_cor_morph.o $(TEST)/test_cor_morph.c
 
