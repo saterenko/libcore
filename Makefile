@@ -23,6 +23,7 @@ DEPS = $(SRC)/cor_array.h \
 	$(SRC)/cor_dict.h \
 	$(SRC)/cor_html.h \
 	$(SRC)/cor_http.h \
+	$(SRC)/cor_json.h \
 	$(SRC)/cor_kuku.h \
 	$(SRC)/cor_list.h \
 	$(SRC)/cor_log.h \
@@ -45,6 +46,7 @@ OBJS = $(BUILD)/cor_array.o \
 	$(BUILD)/cor_dict.o \
 	$(BUILD)/cor_html.o \
 	$(BUILD)/cor_http.o \
+	$(BUILD)/cor_json.o \
 	$(BUILD)/cor_kuku.o \
 	$(BUILD)/cor_list.o \
 	$(BUILD)/cor_log.o \
@@ -101,6 +103,10 @@ $(BUILD)/cor_html.o: $(DEPS) \
 $(BUILD)/cor_http.o: $(DEPS) \
 	$(SRC)/cor_http.c
 	$(CC) -c $(CFLAGS) $(INCS) -o $(BUILD)/cor_http.o $(SRC)/cor_http.c
+
+$(BUILD)/cor_json.o: $(DEPS) \
+	$(SRC)/cor_json.c
+	$(CC) -c $(CFLAGS) $(INCS) -o $(BUILD)/cor_json.o $(SRC)/cor_json.c
 
 $(BUILD)/cor_kuku.o: $(DEPS) \
 	$(SRC)/cor_kuku.c
@@ -218,7 +224,7 @@ $(BUILD)/test_cor_log.o: $(DEPS) \
 	$(TEST)/test_cor_log.c
 	$(CC) -c $(CFLAGS) $(INCS) -o $(BUILD)/test_cor_log.o $(TEST)/test_cor_log.c
 
-s$(BUILD)/test_cor_morph.o: $(DEPS) \
+$(BUILD)/test_cor_morph.o: $(DEPS) \
 	$(TEST)/test_cor_morph.c
 	$(CC) -c $(CFLAGS) $(INCS) -o $(BUILD)/test_cor_morph.o $(TEST)/test_cor_morph.c
 
