@@ -67,6 +67,7 @@ LIBS = $(BUILD)/libcore.a
 TESTS = $(BUILD)/test_cor_buf \
 	$(BUILD)/test_cor_html \
 	$(BUILD)/test_cor_http \
+	$(BUILD)/test_cor_json \
 	$(BUILD)/test_cor_list \
 	$(BUILD)/test_cor_log \
 	$(BUILD)/test_cor_morph \
@@ -164,43 +165,47 @@ $(BUILD)/xxhash.o: $(DEPS) \
 	$(SRC)/xxhash.c
 	$(CC) -c $(CFLAGS) $(INCS) -o $(BUILD)/xxhash.o $(SRC)/xxhash.c
 
-$(BUILD)/test_cor_buf: \
+$(BUILD)/test_cor_buf: $(LIBS) \
 	$(BUILD)/test_cor_buf.o $(BUILD)/cor_buf.o $(BUILD)/cor_list.o
 	$(LINK) -o $(BUILD)/test_cor_buf $(LIBS) $(BUILD)/test_cor_buf.o $(BUILD)/cor_buf.o $(BUILD)/cor_list.o $(LDLIBS)
 
-$(BUILD)/test_cor_html: \
+$(BUILD)/test_cor_html: $(LIBS) \
 	$(BUILD)/test_cor_html.o $(BUILD)/cor_html.o $(BUILD)/cor_log.o $(BUILD)/cor_pool.o $(BUILD)/cor_str.o
 	$(LINK) -o $(BUILD)/test_cor_html $(LIBS) $(BUILD)/test_cor_html.o $(BUILD)/cor_log.o $(BUILD)/cor_pool.o $(BUILD)/cor_str.o $(LDLIBS)
 
-$(BUILD)/test_cor_http: \
+$(BUILD)/test_cor_http: $(LIBS) \
 	$(BUILD)/test_cor_http.o $(BUILD)/cor_array.o $(BUILD)/cor_buf.o $(BUILD)/cor_list.o $(BUILD)/cor_log.o $(BUILD)/cor_pool.o $(BUILD)/cor_spider.o $(BUILD)/cor_str.o
 	$(LINK) -o $(BUILD)/test_cor_http $(LIBS) $(BUILD)/test_cor_http.o $(BUILD)/cor_array.o $(BUILD)/cor_buf.o $(BUILD)/cor_list.o $(BUILD)/cor_log.o $(BUILD)/cor_str.o $(BUILD)/cor_pool.o $(BUILD)/cor_spider.o $(LDLIBS)
 
-$(BUILD)/test_cor_list: \
+$(BUILD)/test_cor_json: \
+	$(BUILD)/test_cor_json.o $(BUILD)/cor_pool.o $(BUILD)/cor_str.o
+	$(LINK) -o $(BUILD)/test_cor_json $(LIBS) $(BUILD)/test_cor_json.o $(BUILD)/cor_pool.o  $(BUILD)/cor_str.o $(LDLIBS)
+
+$(BUILD)/test_cor_list: $(LIBS) \
 	$(BUILD)/test_cor_list.o $(BUILD)/cor_list.o 
 	$(LINK) -o $(BUILD)/test_cor_list $(BUILD)/test_cor_list.o $(BUILD)/cor_list.o $(LDLIBS)
 
-$(BUILD)/test_cor_log: \
+$(BUILD)/test_cor_log: $(LIBS) \
 	$(BUILD)/test_cor_log.o $(BUILD)/cor_log.o 
 	$(LINK) -o $(BUILD)/test_cor_log $(BUILD)/test_cor_log.o $(BUILD)/cor_log.o $(LDLIBS)
 
-$(BUILD)/test_cor_morph: \
+$(BUILD)/test_cor_morph: $(LIBS) \
 	$(BUILD)/test_cor_morph.o $(BUILD)/cor_dict.o $(BUILD)/cor_log.o $(BUILD)/cor_mmap.o $(BUILD)/cor_morph.o $(BUILD)/cor_pool.o $(BUILD)/cor_str.o $(BUILD)/cor_time.o
 	$(LINK) -o $(BUILD)/test_cor_morph $(BUILD)/test_cor_morph.o $(BUILD)/cor_dict.o $(BUILD)/cor_log.o $(BUILD)/cor_mmap.o $(BUILD)/cor_morph.o $(BUILD)/cor_pool.o $(BUILD)/cor_str.o $(BUILD)/cor_time.o $(LDLIBS)
 
-$(BUILD)/test_cor_mysql: \
+$(BUILD)/test_cor_mysql: $(LIBS) \
 	$(BUILD)/test_cor_mysql.o
 	$(LINK) -o $(BUILD)/test_cor_mysql $(BUILD)/test_cor_mysql.o $(LDLIBS)
 
-$(BUILD)/test_cor_smap: \
+$(BUILD)/test_cor_smap: $(LIBS) \
 	$(BUILD)/test_cor_smap.o $(BUILD)/xxhash.o $(BUILD)/cor_time.o
 	$(LINK) -o $(BUILD)/test_cor_smap $(LIBS) $(BUILD)/test_cor_smap.o $(BUILD)/xxhash.o $(BUILD)/cor_time.o
 
-$(BUILD)/test_cor_spider: \
+$(BUILD)/test_cor_spider: $(LIBS) \
 	$(BUILD)/test_cor_spider.o $(BUILD)/cor_array.o $(BUILD)/cor_buf.o $(BUILD)/cor_list.o $(BUILD)/cor_log.o $(BUILD)/cor_http.o $(BUILD)/cor_pool.o $(BUILD)/cor_spider.o $(BUILD)/cor_str.o
 	$(LINK) -o $(BUILD)/test_cor_spider $(LIBS) $(BUILD)/test_cor_spider.o $(BUILD)/cor_array.o $(BUILD)/cor_buf.o $(BUILD)/cor_list.o $(BUILD)/cor_log.o $(BUILD)/cor_http.o $(BUILD)/cor_pool.o $(BUILD)/cor_spider.o $(BUILD)/cor_str.o  $(LDLIBS)
 
-$(BUILD)/test_cor_trace: \
+$(BUILD)/test_cor_trace: $(LIBS) \
 	$(BUILD)/test_cor_trace.o $(BUILD)/cor_trace.o
 	$(LINK) -o $(BUILD)/test_cor_trace $(LIBS) $(BUILD)/test_cor_trace.o $(BUILD)/cor_trace.o $(LDLIBS)
 
@@ -215,6 +220,10 @@ $(BUILD)/test_cor_html.o: $(DEPS) \
 $(BUILD)/test_cor_http.o: $(DEPS) \
 	$(TEST)/test_cor_http.c
 	$(CC) -c $(CFLAGS) $(INCS) -o $(BUILD)/test_cor_http.o $(TEST)/test_cor_http.c
+
+$(BUILD)/test_cor_json.o: $(DEPS) \
+	$(TEST)/test_cor_json.c
+	$(CC) -c $(CFLAGS) $(INCS) -o $(BUILD)/test_cor_json.o $(TEST)/test_cor_json.c
 
 $(BUILD)/test_cor_list.o: $(DEPS) \
 	$(TEST)/test_cor_list.c

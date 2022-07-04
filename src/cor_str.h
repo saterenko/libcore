@@ -11,8 +11,8 @@ typedef struct
 
 #define cor_str(_s) { sizeof(_s) - 1, _s }
 #define cor_str_null  { 0, NULL }
-#define cor_str_tolower(_c) (_c >= 'A' && _c <= 'Z') ? (_c | 0x20) : _c
-#define cor_str_toupper(_c) (_c >= 'a' && _c <= 'z') ? (_c & ~0x20) : _c
+#define cor_str_tolower(_c) ((_c) >= 'A' && (_c) <= 'Z') ? ((_c) | 0x20) : _c
+#define cor_str_toupper(_c) ((_c) >= 'a' && (_c) <= 'z') ? ((_c) & ~0x20) : _c
 
 cor_str_t *cor_str_new(cor_pool_t *pool, size_t size);
 cor_str_t *cor_str_make_from_charptr(cor_pool_t *pool, const char *src, size_t size);
